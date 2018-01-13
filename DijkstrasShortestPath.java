@@ -10,11 +10,12 @@ class DijkstrasShortestPath
 {
     // A utility function to find the vertex with minimum distance value,
     // from the set of vertices not yet included in shortest path tree
-    static final int V=9;
-    int minDistance(int dist[], Boolean sptSet[])
+    static final int V= 13;
+    int minDistance(double dist[], Boolean sptSet[])
     {
         // Initialize min value
-        int min = Integer.MAX_VALUE, min_index=-1;
+        Double min = Double.MAX_VALUE;
+        int min_index=-1;
  
         for (int v = 0; v < V; v++)
             if (sptSet[v] == false && dist[v] <= min)
@@ -27,34 +28,45 @@ class DijkstrasShortestPath
     }
  
     // A utility function to print the constructed distance array
-    void printSolution(int dist[], int n)
+    void printSolution(double dist[], double n)
     {
         System.out.println("Vertex   Distance from Source");
-        for (int i = 0; i < V; i++)
-            System.out.println(i+" tt "+dist[i]);
+        for (int  i = 0; i < V; i++)
+            System.out.println(i+ "           "+dist[i]);
     }
+    
+    
+    //A utility function that takes the parent array of the shortest path tree 
+   //and target vertex then it prints out the shortest path.
+    void printShortestPath(int[] parent, int target){
+      
+   }
  
     // Funtion that implements Dijkstra's single source shortest path
     // algorithm for a graph represented using adjacency matrix
     // representation
-    void dijkstra(int graph[][], int src)
+    void dijkstra(double graph[][], int src)
     {
-        int dist[] = new int[V]; // The output array. dist[i] will hold
+        double dist[] = new double[V]; // The output array. dist[i] will hold
                                  // the shortest distance from src to i
  
         // sptSet[i] will true if vertex i is included in shortest
         // path tree or shortest distance from src to i is finalized
         Boolean sptSet[] = new Boolean[V];
+        
+        int[] parent = new int[V];
  
         // Initialize all distances as INFINITE and stpSet[] as false
         for (int i = 0; i < V; i++)
         {
-            dist[i] = Integer.MAX_VALUE;
+            dist[i] = Double.MAX_VALUE;
             sptSet[i] = false;
         }
+        
+        parent[0] = -1; // First node is always root
  
         // Distance of source vertex from itself is always 0
-        dist[src] = 0;
+        dist[src] = 0.0;
  
         // Find shortest path for all vertices
         for (int count = 0; count < V-1; count++)
@@ -75,29 +87,35 @@ class DijkstrasShortestPath
                 // edge from u to v, and total weight of path from src to
                 // v through u is smaller than current value of dist[v]
                 if (!sptSet[v] && graph[u][v]!=0 &&
-                        dist[u] != Integer.MAX_VALUE &&
+                        dist[u] != Double.MAX_VALUE &&
                         dist[u]+graph[u][v] < dist[v])
-                    dist[v] = dist[u] + graph[u][v];
+                        dist[v] = dist[u] + graph[u][v];
+                       parent[v] = u;
         }
  
         // print the constructed distance array
         printSolution(dist, V);
+        //printShortestPath()
     }
  
     // Driver method
     public static void main (String[] args)
     {
         /* Let us create the example graph discussed above */
-       int graph[][] = new int[][]{{0, 4, 0, 0, 0, 0, 0, 8, 0},
-                                  {4, 0, 8, 0, 0, 0, 0, 11, 0},
-                                  {0, 8, 0, 7, 0, 4, 0, 0, 2},
-                                  {0, 0, 7, 0, 9, 14, 0, 0, 0},
-                                  {0, 0, 0, 9, 0, 10, 0, 0, 0},
-                                  {0, 0, 4, 14, 10, 0, 2, 0, 0},
-                                  {0, 0, 0, 0, 0, 2, 0, 1, 6},
-                                  {8, 11, 0, 0, 0, 0, 1, 0, 7},
-                                  {0, 0, 2, 0, 0, 0, 6, 7, 0}
-                                 };
+       double graph[][] = new double[][]{{0, 19.8, 0, 0, 0, 0, 0, 0, 0,0,0,0,0},
+                                              {4, 0, 8, 0, 0, 75.1, 76.9, 0, 0,0,0,0,0},
+                                              {0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0},
+                                              {0, 0, 7, 0, 9, 14, 0, 0, 0,0,0,0,0},
+                                              {0, 0, 0, 0, 0, 59.6, 0, 0, 0,0,0,0,0},
+                                              {0, 0, 0, 0, 0, 0, 183.5, 0, 0,0,0,0,0},
+                                              {0, 0, 0, 0, 0, 0, 0, 138.8, 126.1,0,0,0,0},
+                                              {0, 0, 0, 0, 0, 0, 0, 0, 134.3,0,0,0,0},
+                                              {0, 0, 2, 0, 0, 0, 6, 7, 0,0,0,0,0},
+                                              {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                              {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                              {0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                              {0,0,0,0,0,0,0,0,0,0,0,0,0}
+                                             };
         DijkstrasShortestPath t = new DijkstrasShortestPath();
         t.dijkstra(graph, 0);
     }
