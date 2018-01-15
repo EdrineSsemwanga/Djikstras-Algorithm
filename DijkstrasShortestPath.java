@@ -39,6 +39,20 @@ class DijkstrasShortestPath
     //A utility function that takes the parent array of the shortest path tree 
    //and target vertex then it prints out the shortest path.
     void printShortestPath(int[] parent, int target){
+
+
+        //Base condition
+        if(parent[target] == -1){
+            System.out.println(" " + target);
+            return;
+        }
+
+        //print the current vertex
+        System.out.print(" " + target);
+
+        //Make a recursive call
+        printShortestPath(parent, parent[target]);
+
       
    }
  
@@ -88,14 +102,21 @@ class DijkstrasShortestPath
                 // v through u is smaller than current value of dist[v]
                 if (!sptSet[v] && graph[u][v]!=0 &&
                         dist[u] != Double.MAX_VALUE &&
-                        dist[u]+graph[u][v] < dist[v])
-                        dist[v] = dist[u] + graph[u][v];
-                       parent[v] = u;
+                        dist[u]+graph[u][v] < dist[v]){
+
+                    dist[v] = dist[u] + graph[u][v];
+                    parent[v] = u;
+                }
+
         }
  
         // print the constructed distance array
         printSolution(dist, V);
-        //printShortestPath()
+        printShortestPath(parent, 10);
+
+        for(int i = 0; i < parent.length; i++){
+            System.out.print(" " + parent[i]);
+        }
     }
  
     // Driver method
